@@ -1,0 +1,3 @@
+*.prof
+.txt
+utils/__pycache__

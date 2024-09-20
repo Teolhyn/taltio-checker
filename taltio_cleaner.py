@@ -21,7 +21,9 @@ def find_empty_directories(root_directory):
 
     for directory_path, directories, files in os.walk(root_directory):
         if not directories and not files:
-            yield id_from_path.get_id_from_path(directory_path)
+            result = id_from_path.get_id_from_path(directory_path)
+            if result:
+                yield result
 
 
 PATH = r"Y:"
