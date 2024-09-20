@@ -19,3 +19,22 @@ def is_id(directoryname):
             and directoryname.isalpha():
         return True
     return False
+
+
+def emailify(utuid):
+    """
+    Makes the utuids utu-emails! :)
+
+    Args:
+        id String | list: either singular utuid or a list of utuid's 
+
+    Returns:
+        String | list: returns either singular utu-email or a list of utu-emails.
+        Returns 'None' if input is not instance of str or list.
+    """
+
+    email_list = []
+    for i in utuid:
+        email_list.append(f"{i}@utu.fi")
+
+    return email_list
