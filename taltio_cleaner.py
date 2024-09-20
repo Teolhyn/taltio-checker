@@ -3,7 +3,7 @@ taltio_cleaner is a set of tools used to monitor and lint
 Taltio data storage.
 """
 import os
-from utils import is_utuid
+from utils import utiltools
 
 
 def find_empty_directories(root_directory):
@@ -15,7 +15,7 @@ def find_empty_directories(root_directory):
     Args:
         root_directory (String): Root directory from which the function starts to walk.
 
-    Yields:
+    Returns:
         String: University id that is not using the data storage.
     """
 
@@ -26,7 +26,7 @@ def find_empty_directories(root_directory):
         group_directories = os.listdir(f"{root_directory}\\{group}")
         group_directories_copy = group_directories.copy()
         for directory in group_directories:
-            if not is_utuid.is_id(directory):
+            if not utiltools.is_id(directory):
                 group_directories_copy.remove(directory)
         directories.update({group: group_directories_copy})
 
@@ -38,9 +38,26 @@ def find_empty_directories(root_directory):
                 directory_list_copy.remove(directory)
         list_of_empties.extend(directory_list_copy)
 
-    print(list_of_empties)
+    return list_of_empties
+
+
+def get_email_list(ids):
+    """
+    Generate a email list for given IDs.
+
+    Args:
+        ids str | list: IDs
+
+    Returns:
+        str | list: either singular email or email list.
+    """
+    return utiltools.emailify(ids)
 
 
 PATH = r"Y:"
 
-find_empty_directories(PATH)
+not_using = find_empty_directories(PATH)
+
+naughty_list = get_email_list(not_using)
+
+print(naughty_list)
