@@ -22,7 +22,9 @@ def find_empty_directories(root_directory):
         groups = os.listdir(root_directory)
     except FileNotFoundError:
         print(
-            f"Error: The system cannot find the path specified: '{root_directory}'. Are you sure the given path exists?")
+            f"Error: The system cannot find the path specified: "
+            f"'{root_directory}'. Are you sure the given path exists?"
+        )
         raise
 
     directories = {}
@@ -109,8 +111,6 @@ def format_checker(path):
     empties = find_empty_directories(
         path)  # No need to check empty ones, so let's store them
 
-    users = find_users(path)
-
     groups = os.listdir(path)
 
     for group in groups:
@@ -123,55 +123,73 @@ def format_checker(path):
                 os.listdir(f"{path}\\{group}\\{directory}")
             except NotADirectoryError:
                 print(
-                    f"STRUCTURE_WARNING: There's a file '{directory}' in a layer '{path}\\{group}' that should have only directories!")
+                    f"STRUCTURE_WARNING: There's a file '{directory}' in"
+                    f"a layer '{path}\\{group}' that should have only directories!"
+                )
                 # structure_warnings += 1
             else:
                 names = os.listdir(f"{path}\\{group}\\{directory}")
                 for name in names:
                     if any(x.isspace() for x in name):
                         print(
-                            f"WHITESPACE_WARNING: File or directory '{name}' in '{path}\\{group}\\{directory}' uses whitespaces!")
+                            f"WHITESPACE_WARNING: File or directory '{name}'"
+                            f"in '{path}\\{group}\\{directory}' uses whitespaces!"
+                        )
                         whitespace_warnings += 1
                     elif name[:2] != "20":
                         print(
-                            f"MISSING_ISO8601_WARNING: File or directory '{name}' in '{path}\\{group}\\{directory}' does not use the ISO8061 format!")
+                            f"MISSING_ISO8601_WARNING: File or directory '{name}' "
+                            f"in '{path}\\{group}\\{directory}' does not use the ISO8061 format!"
+                        )
                         missing_iso8601_warnings += 1
                     else:
                         print(
-                            f"File or directory '{name}' in '{path}\\{group}\\{directory}' is properly formatted :)"
+                            f"File or directory '{name}' in "
+                            f"'{path}\\{group}\\{directory}' is properly formatted :)"
                         )
                         properly_in_format += 1
 
     msg = (
-        f'######################### \n'
+        f'\n \n######################### \n'
         f'# Format check result: \n'
         f'# Total names checked: {total_checked} \n'
-        f'# Structure warnings: {structure_warnings} ({structure_warnings/total_checked*100:.2f}%) \n'
-        f'# ISO8601 warnings: {missing_iso8601_warnings} ({missing_iso8601_warnings/total_checked*100:.2f}%) \n'
-        f'# Whitespace warnings: {whitespace_warnings} ({whitespace_warnings/total_checked*100:.2f}%) \n'
-        f'# Properly in format: {properly_in_format} ({properly_in_format/total_checked*100:.2f}%) \n'
+        f'# Structure warnings: {structure_warnings} '
+        f'({structure_warnings/total_checked*100:.2f}%) \n'
+        f'# ISO8601 warnings: {missing_iso8601_warnings} '
+        f'({missing_iso8601_warnings/total_checked*100:.2f}%) \n'
+        f'# Whitespace warnings: {whitespace_warnings} '
+        f'({whitespace_warnings/total_checked*100:.2f}%) \n'
+        f'# Properly in format: {properly_in_format} '
+        f'({properly_in_format/total_checked*100:.2f}%) \n'
         f'######################### \n'
     )
     print(msg)
 
 
 def main():
-    PATH = "Y:"
+    """
+    Main.
+    """
+    path = "Y:"
     utiltools.dashboard()
 
-    cmd = input(
-        "What would you like to do? you can input multiple commands by separating them with commas. \n cmd: ")
+    prompt = (
+        'What would you like to do?'
+        'You can input multiple commands by separating them with commas. \n cmd: '
+    )
+
+    cmd = input(prompt)
     cmd_c = cmd.replace(" ", "")
     cmd_list = cmd_c.split(',')
     for i in cmd_list:
         if i == 'e':
-            print(find_empty_directories(PATH))
+            print(find_empty_directories(path))
         elif i == 'E':
-            print(get_email_list(find_empty_directories(PATH)))
+            print(get_email_list(find_empty_directories(path)))
         elif i == 'u':
-            print(find_users(PATH))
+            print(find_users(path))
         elif i == 'f':
-            format_checker(PATH)
+            format_checker(path)
         else:
             print(
                 f"Given command '{i}' is not a command !")
