@@ -174,8 +174,8 @@ def main():
     utiltools.dashboard()
 
     prompt = (
-        'What would you like to do?'
-        'You can input multiple commands by separating them with commas. \n cmd: '
+        'What would you like to do? '
+        'You can input multiple commands by separating them with commas. \ncmd: '
     )
 
     cmd = input(prompt)
@@ -194,5 +194,19 @@ def main():
             print(
                 f"Given command '{i}' is not a command !")
 
+    prompt = (
+        '\nWould you like to continue? [Y/n]: '
+    )
 
-main()
+    cmd = input(prompt)
+    if cmd == 'Y':
+        return True
+    if cmd == 'n':
+        return False
+
+    return False
+
+
+RUN = True
+while RUN:
+    RUN = main()
